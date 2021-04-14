@@ -1,0 +1,59 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+
+void perm(int*,int,int,int);
+void swap(int*, int ,int);
+
+int main(void){
+
+    srand(time(NULL));
+    int all;  //全部的元素
+    int part; //需要排列的元素的個數
+    int temp=0;
+    int pt;
+        scanf("%d %d",&all,&part);
+    int *all_array=calloc(all,sizeof(int));
+        for(int i=0;i<all;i++){
+            all_array[i]=(char)(i+1);
+        }
+    int *part_array=calloc(part,sizeof(int));
+    int timer=part;
+        for(;timer>0;timer--){
+            for(;;){
+                pt=rand()%all;
+                temp=all_array[pt];
+                if(temp!=0){
+                    all_array[pt]=0;
+                    break;
+                }
+            }
+            part_array[part-timer]=temp;
+        }
+        printf("array choosed by random \n");
+        for(int i=0;i<part;i++)
+            printf("%d ",part_array[i]);
+        printf("\npossible sitution:\n");
+        perm(part_array,0,part-1,part);
+}
+
+void swap(int *x,int a,int b){
+    int z;
+    z=x[a];
+    x[a]=x[b];
+    x[b]=z;
+}
+
+void perm(int*str,int start,int end,int c){
+    int j=0;
+    for(j=start;j<=end;j++){
+        swap(str,start,j);
+        perm(str,start+1,end,c);
+        swap(str,start,j);
+    }
+    if(start==end){
+        for(int i=0;i<c;i++)
+            printf("%d ",str[i]);
+        printf("\n");
+    }
+}
